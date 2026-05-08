@@ -1,14 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { readSettings, writeSettings } from '../../_lib/storage/progress';
 
 export function SoundToggle() {
-  const [enabled, setEnabled] = useState(false);
-
-  useEffect(() => {
-    setEnabled(readSettings().soundEnabled);
-  }, []);
+  const [enabled, setEnabled] = useState(() => readSettings().soundEnabled);
 
   function toggle() {
     const next = !enabled;
