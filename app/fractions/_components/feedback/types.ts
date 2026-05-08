@@ -12,7 +12,7 @@ export interface Problem {
   numerator: number;
   denominator: number;
   questionType: QuestionType;
-  distractors?: Array<{ numerator: number; denominator: number }>;
+  distractors?: ReadonlyArray<{ numerator: number; denominator: number }>;
 }
 
 export type Answer =

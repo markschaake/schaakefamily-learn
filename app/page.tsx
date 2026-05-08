@@ -6,7 +6,7 @@ const apps = [
     title: "Fractions Practice",
     description: "Visual fractions, number lines, and word problems.",
     emoji: "🍕",
-    status: "coming-soon" as const,
+    status: "ready" as const,
   },
 ];
 
