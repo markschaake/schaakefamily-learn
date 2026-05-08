@@ -12,11 +12,26 @@ import { SessionSummary } from './SessionSummary';
 import { PageShell } from './PageShell';
 
 export function SessionPlayer() {
+  // Start with an empty session so SSR and the first client render produce
+  // identical markup. The real session is built in an effect after mount,
+  // since buildSession() uses Math.random() and would otherwise diverge.
   const [state, dispatch] = useReducer(
     sessionReducer,
     undefined,
-    () => initialState(buildSession(), new Date().toISOString()),
+    () => initialState([], ''),
   );
+
+  // Effect 0: build the initial session client-side after mount.
+  const builtRef = useRef(false);
+  useEffect(() => {
+    if (builtRef.current) return;
+    builtRef.current = true;
+    dispatch({
+      type: 'REBUILT',
+      problems: buildSession(),
+      startedAt: new Date().toISOString(),
+    });
+  }, []);
 
   // Effect 1: persist progress exactly once when the session enters 'summary'.
   // A useRef boolean guards against double-writes (React StrictMode, re-renders).
@@ -61,6 +76,17 @@ export function SessionPlayer() {
   }, [state.phase, state.index]);
 
   const current = state.problems[state.index];
+
+  // --- Pre-build screen (SSR + first client render before Effect 0 runs) ---
+  // state.problems is empty until the build effect dispatches REBUILT.
+  // Render an empty shell to avoid a flash of an empty progress bar.
+  if (state.problems.length === 0) {
+    return (
+      <PageShell>
+        <div className="pt-28" />
+      </PageShell>
+    );
+  }
 
   // --- Summary screen ---
   if (state.phase === 'summary') {

@@ -36,48 +36,44 @@ export function VisualToFraction({ problem, onAnswer }: VisualToFractionProps) {
         className="flex flex-col items-center gap-4 w-full max-w-xs"
         aria-label="Enter the fraction"
       >
-        <div className="flex items-center gap-3">
-          <div className="flex flex-col items-center gap-1">
-            <label
-              htmlFor="vtf-numerator"
-              className="text-xs text-slate-500 dark:text-slate-400"
-            >
-              numerator
-            </label>
-            <input
-              id="vtf-numerator"
-              type="number"
-              min={1}
-              max={99}
-              className="w-20 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-center text-xl font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              value={numerator}
-              onChange={(e) => setNumerator(e.target.value)}
-              placeholder="?"
-              autoComplete="off"
-              inputMode="numeric"
-            />
-          </div>
-          <div className="mt-5 h-0.5 w-6 bg-slate-900 dark:bg-slate-100" aria-hidden="true" />
-          <div className="flex flex-col items-center gap-1">
-            <label
-              htmlFor="vtf-denominator"
-              className="text-xs text-slate-500 dark:text-slate-400"
-            >
-              denominator
-            </label>
-            <input
-              id="vtf-denominator"
-              type="number"
-              min={2}
-              max={99}
-              className="w-20 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-center text-xl font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-              value={denominator}
-              onChange={(e) => setDenominator(e.target.value)}
-              placeholder="?"
-              autoComplete="off"
-              inputMode="numeric"
-            />
-          </div>
+        <div className="flex flex-col items-center gap-2">
+          <label
+            htmlFor="vtf-numerator"
+            className="text-xs text-slate-500 dark:text-slate-400"
+          >
+            numerator
+          </label>
+          <input
+            id="vtf-numerator"
+            type="number"
+            min={1}
+            max={99}
+            className="w-24 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-center text-2xl font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            value={numerator}
+            onChange={(e) => setNumerator(e.target.value)}
+            placeholder="?"
+            autoComplete="off"
+            inputMode="numeric"
+          />
+          <div className="my-1 h-1 w-32 rounded-full bg-slate-900 dark:bg-slate-100" aria-hidden="true" />
+          <input
+            id="vtf-denominator"
+            type="number"
+            min={2}
+            max={99}
+            className="w-24 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-center text-2xl font-semibold text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            value={denominator}
+            onChange={(e) => setDenominator(e.target.value)}
+            placeholder="?"
+            autoComplete="off"
+            inputMode="numeric"
+          />
+          <label
+            htmlFor="vtf-denominator"
+            className="text-xs text-slate-500 dark:text-slate-400"
+          >
+            denominator
+          </label>
         </div>
         <button
           type="submit"
