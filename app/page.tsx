@@ -8,6 +8,13 @@ const apps = [
     emoji: "🍕",
     status: "ready" as const,
   },
+  {
+    href: "/tessellations",
+    title: "Tessellations",
+    description: "Discover which shapes tile cleanly without gaps.",
+    emoji: "🔷",
+    status: "ready" as const,
+  },
 ];
 
 export default function Home() {
