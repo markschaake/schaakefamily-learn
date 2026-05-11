@@ -1,3 +1,3 @@
-export type { ShapeDefinition, SingleShapePattern, Position } from './types';
+export type { PlacedShape, ShapeDefinition } from './types';
 export { shapes, getShapeById } from './shapes';
-export { generatePattern, getTileSize } from './pattern-generator';
+export { generatePattern } from './pattern-generator';

@@ -11,10 +11,8 @@ export const shapes: ShapeDefinition[] = [
     tessellatesByItself: true,
     explanation:
       'Squares tile perfectly! They fit edge-to-edge with no gaps or overlaps, filling the whole plane.',
-    singleShapePattern: {
-      columns: 5,
-      rows: 5,
-    },
+    snapAngle: 15,
+    tileSize: { w: 20, h: 20 },
   },
   {
     id: 'triangle',
@@ -22,18 +20,12 @@ export const shapes: ShapeDefinition[] = [
     emoji: '🔺',
     color: '#ef4444',
     svgElement: 'polygon',
-    // Equilateral triangle in 0-1 space:
-    // apex at top-center, base corners at bottom-left and bottom-right
     polygonPoints: '0.5,0 0,1 1,1',
     tessellatesByItself: true,
     explanation:
-      'Equilateral triangles tile perfectly! They fit together in rows, with alternating rows flipped upside-down, filling the whole plane.',
-    singleShapePattern: {
-      columns: 6,
-      rows: 6,
-      staggerRows: false,
-      flipAlternateRows: true,
-    },
+      'Equilateral triangles tile perfectly! Alternate rows flip upside-down to fill the plane with no gaps.',
+    snapAngle: 15,
+    tileSize: { w: 16.67, h: 20 },
   },
   {
     id: 'hexagon',
@@ -41,17 +33,12 @@ export const shapes: ShapeDefinition[] = [
     emoji: '⬢',
     color: '#8b5cf6',
     svgElement: 'polygon',
-    // Regular hexagon in 0-1 space (pointy-top, centered at 0.5,0.5)
-    // vertices at 60-degree intervals
     polygonPoints: '0.5,0 0.933,0.25 0.933,0.75 0.5,1 0.067,0.75 0.067,0.25',
     tessellatesByItself: true,
     explanation:
-      'Regular hexagons tile perfectly! They fit together like a honeycomb with no gaps or overlaps, filling the whole plane.',
-    singleShapePattern: {
-      columns: 3,
-      rows: 4,
-      staggerRows: true,
-    },
+      'Regular hexagons tile perfectly like a honeycomb — no gaps, no overlaps!',
+    snapAngle: 15,
+    tileSize: { w: 33.33, h: 25 },
   },
   {
     id: 'pentagon',
@@ -59,12 +46,12 @@ export const shapes: ShapeDefinition[] = [
     emoji: '⬠',
     color: '#f59e0b',
     svgElement: 'polygon',
-    // Regular pentagon in 0-1 space (pointy-top, centered at 0.5,0.5)
-    // Using approximate vertex positions for a regular pentagon
     polygonPoints: '0.5,0.085 0.924,0.418 0.781,0.915 0.219,0.915 0.076,0.418',
     tessellatesByItself: false,
     explanation:
-      'This selected regular pentagon does not tessellate by itself in this app. No matter how you arrange identical regular pentagons, gaps always appear between them.',
+      'Regular pentagons cannot tile the plane by themselves — gaps always appear between them.',
+    snapAngle: 90,
+    tileSize: { w: 25, h: 25 },
   },
   {
     id: 'circle',
@@ -75,7 +62,9 @@ export const shapes: ShapeDefinition[] = [
     circleRadius: 0.5,
     tessellatesByItself: false,
     explanation:
-      'This selected regular circle does not tessellate by itself in this app. Circles are round, so there will always be gaps between them when placed side by side.',
+      'Circles are round, so there will always be gaps between them — they cannot tessellate.',
+    snapAngle: 0,
+    tileSize: { w: 25, h: 25 },
   },
 ];
 

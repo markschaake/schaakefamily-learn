@@ -1,17 +1,9 @@
-export interface SingleShapePattern {
-  columns: number;
-  rows: number;
-  /** If true, odd rows are shifted horizontally by half a tile width. */
-  staggerRows?: boolean;
-  /** If true, alternate rows are flipped vertically (for triangles). */
-  flipAlternateRows?: boolean;
-}
-
-export interface Position {
+export interface PlacedShape {
+  id: string;
+  shapeId: string;
   x: number;
   y: number;
-  /** 0 = normal, 1 = flipped vertically */
-  flip?: number;
+  rotation: number;
 }
 
 export interface ShapeDefinition {
@@ -28,6 +20,8 @@ export interface ShapeDefinition {
   tessellatesByItself: boolean;
   /** Kid-readable explanation of tessellation behavior. */
   explanation: string;
-  /** Pattern config for single-shape tiling (only for tessellating shapes). */
-  singleShapePattern?: SingleShapePattern;
+  /** Snap angle in degrees — 0 for shapes where rotation doesn't matter. */
+  snapAngle: number;
+  /** Default tile grid size (in board units) for this shape. */
+  tileSize: { w: number; h: number };
 }

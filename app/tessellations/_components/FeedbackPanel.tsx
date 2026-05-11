@@ -4,10 +4,18 @@ import type { ShapeDefinition } from "../_lib/types";
 
 interface FeedbackPanelProps {
   shape: ShapeDefinition;
+  placedCount: number;
 }
 
-export function FeedbackPanel({ shape }: FeedbackPanelProps) {
+export function FeedbackPanel({ shape, placedCount }: FeedbackPanelProps) {
   const isTessellating = shape.tessellatesByItself;
+
+  let message = shape.explanation;
+  if (placedCount === 0) {
+    message = `Can the ${shape.name.toLowerCase()} tile the plane without gaps? Try adding shapes and arranging them to find out!`;
+  } else if (placedCount === 1) {
+    message = "Good start! Add more shapes and try to fit them edge-to-edge.";
+  }
 
   return (
     <div
@@ -19,7 +27,7 @@ export function FeedbackPanel({ shape }: FeedbackPanelProps) {
     >
       <div className="flex items-start gap-3">
         <span className="text-2xl flex-shrink-0 leading-none mt-0.5" aria-hidden="true">
-          {isTessellating ? "✓" : "✗"}
+          {isTessellating ? "🧩" : "🤔"}
         </span>
         <div>
           <h3
@@ -29,9 +37,11 @@ export function FeedbackPanel({ shape }: FeedbackPanelProps) {
                 : "text-amber-900 dark:text-amber-200"
             }`}
           >
-            {isTessellating
-              ? `${shape.name} tessellates!`
-              : `${shape.name} does not tessellate by itself`}
+            {placedCount === 0
+              ? `Will the ${shape.name} tessellate?`
+              : isTessellating
+                ? `${shape.name} tessellates!`
+                : `${shape.name} does not tessellate by itself`}
           </h3>
           <p
             className={`mt-1 text-sm leading-relaxed ${
@@ -40,7 +50,7 @@ export function FeedbackPanel({ shape }: FeedbackPanelProps) {
                 : "text-amber-700 dark:text-amber-300"
             }`}
           >
-            {shape.explanation}
+            {message}
           </p>
         </div>
       </div>

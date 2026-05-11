@@ -1,54 +1,44 @@
-import type { ShapeDefinition, Position } from './types';
+import type { ShapeDefinition } from './types';
+
+interface PatternTile {
+  x: number;
+  y: number;
+  rotation: number;
+}
 
 /**
- * Generate a deterministic grid of positions for a shape on the board.
- * Board uses a 100×100 viewBox.
+ * Generate a tessellation pattern for a shape on the 100×100 board.
  * Returns an empty array for non-tessellating shapes.
  */
 export function generatePattern(
   shape: ShapeDefinition,
   boardSize = 100,
-): Position[] {
-  const pattern = shape.singleShapePattern;
-  if (!pattern || !shape.tessellatesByItself) {
-    return [];
-  }
+): PatternTile[] {
+  if (!shape.tessellatesByItself) return [];
 
-  const positions: Position[] = [];
-  const tileWidth = boardSize / pattern.columns;
-  const tileHeight = boardSize / pattern.rows;
+  const { w, h } = shape.tileSize;
+  const tiles: PatternTile[] = [];
 
-  for (let row = 0; row < pattern.rows; row++) {
-    for (let col = 0; col < pattern.columns; col++) {
-      const staggerOffset =
-        pattern.staggerRows && row % 2 === 1 ? tileWidth * 0.5 : 0;
-      const x = col * tileWidth + staggerOffset;
-      const y = row * tileHeight;
-      const flip =
-        pattern.flipAlternateRows && row % 2 === 1 ? 1 : 0;
+  for (let row = 0; row <= boardSize / h + 1; row++) {
+    for (let col = -1; col <= boardSize / w + 1; col++) {
+      const x = col * w;
+      const y = row * h;
 
-      positions.push({ x, y, flip });
+      if (shape.id === 'triangle') {
+        // Alternate rows: flip (180°) and offset by half width
+        const rotation = row % 2 === 0 ? 0 : 180;
+        const offsetX = row % 2 === 0 ? 0 : w * 0.5;
+        tiles.push({ x: x + offsetX, y, rotation });
+      } else if (shape.id === 'hexagon') {
+        // Stagger every other row
+        const offsetX = row % 2 === 0 ? 0 : w * 0.5;
+        tiles.push({ x: x + offsetX, y, rotation: 0 });
+      } else {
+        // Square — simple grid
+        tiles.push({ x, y, rotation: 0 });
+      }
     }
   }
 
-  return positions;
-}
-
-/**
- * Compute the tile size (in board units) for a shape's pattern.
- * Used to scale individual shape instances.
- */
-export function getTileSize(
-  shape: ShapeDefinition,
-  boardSize = 100,
-): { width: number; height: number } {
-  const pattern = shape.singleShapePattern;
-  if (pattern) {
-    return {
-      width: boardSize / pattern.columns,
-      height: boardSize / pattern.rows,
-    };
-  }
-  // Default comfortable size for single-shape drag mode
-  return { width: 20, height: 20 };
+  return tiles;
 }
