@@ -1,0 +1,4 @@
+build:
+  postMergeCommands:
+    - bun run lint
+    - bun run build
